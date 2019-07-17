@@ -20,4 +20,12 @@ class TasksTest extends TestCase
 
         $this->assertDatabaseHas('tasks', $attributes);
     }
+
+    /** @test */
+    public function a_task_requires_a_body()
+    {
+        $this->signIn()
+            ->post('/tasks', [])
+            ->assertSessionHasErrors('body');
+    }
 }
