@@ -75,9 +75,11 @@ class TaskController extends Controller
      * @param  \App\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(StoreTaskRequest $request, Task $task)
     {
-        //
+        $updatedTask = tap($task)->update($request->validated());
+
+        return new TaskResource($updatedTask);
     }
 
     /**

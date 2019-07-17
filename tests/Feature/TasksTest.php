@@ -23,7 +23,7 @@ class TasksTest extends TestCase
     }
 
     /** @test */
-    public function a_task_requires_a_body()
+    public function a_task_requires_a_body_when_created()
     {
         $this->signIn()
             ->postJson('/tasks', [])
@@ -31,7 +31,7 @@ class TasksTest extends TestCase
     }
 
     /** @test */
-    public function a_user_browse_tasks()
+    public function a_user_can_browse_tasks()
     {
         $task = factory(Task::class)->create();
 
@@ -39,4 +39,27 @@ class TasksTest extends TestCase
             ->getJson('/tasks')
             ->assertJsonFragment(['body' => $task->body]);
     }
+
+    /** @test */
+    public function a_user_can_update_an_existing_task()
+    {
+        $task = factory(Task::class)->create();
+
+        $newTask = ['body' => 'Updated task'];
+
+        $this->signIn($task->user)
+            ->patchJson("/tasks/{$task->id}", $newTask)
+            ->assertJsonFragment($newTask);
+    }
+
+    /** @test */
+    public function a_task_requires_a_body_when_updated()
+    {
+        $task = factory(Task::class)->create();
+
+        $this->signIn()
+            ->patchJson("/tasks/{$task->id}", [])
+            ->assertJsonValidationErrors('body');
+    }
+
 }
