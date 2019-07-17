@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Task;
 
 class TasksTest extends TestCase
 {
@@ -16,7 +17,7 @@ class TasksTest extends TestCase
             'body' => 'My first task'
         ];
 
-        $this->signIn()->post('/tasks', $attributes);
+        $this->signIn()->postJson('/tasks', $attributes);
 
         $this->assertDatabaseHas('tasks', $attributes);
     }
@@ -25,7 +26,17 @@ class TasksTest extends TestCase
     public function a_task_requires_a_body()
     {
         $this->signIn()
-            ->post('/tasks', [])
-            ->assertSessionHasErrors('body');
+            ->postJson('/tasks', [])
+            ->assertJsonValidationErrors('body');
+    }
+
+    /** @test */
+    public function a_user_browse_tasks()
+    {
+        $task = factory(Task::class)->create();
+
+        $this->signIn($task->user)
+            ->getJson('/tasks')
+            ->assertJsonFragment(['body' => $task->body]);
     }
 }

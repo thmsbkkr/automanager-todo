@@ -26,7 +26,9 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        //
+        return TaskResource::collection(
+            $request->user()->tasks
+        );
     }
 
     /**
@@ -37,7 +39,9 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        $createdTask = $request->user()->tasks()->create($request->validated());
+        $createdTask = $request->user()->tasks()->create(
+            $request->validated()
+        );
 
         return new TaskResource($createdTask);
     }
