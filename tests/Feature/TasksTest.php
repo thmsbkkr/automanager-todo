@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Task;
+use Illuminate\Support\Carbon;
 
 class TasksTest extends TestCase
 {
@@ -33,6 +34,8 @@ class TasksTest extends TestCase
     /** @test */
     public function a_user_can_browse_tasks()
     {
+        $this->withoutExceptionHandling();
+
         $task = factory(Task::class)->create();
 
         $this->signIn($task->user)
@@ -62,4 +65,19 @@ class TasksTest extends TestCase
             ->assertJsonValidationErrors('body');
     }
 
+    /** @test */
+    public function a_user_mark_a_task_as_completed()
+    {
+        $task = factory(Task::class)->create();
+
+        $this->signIn()->postJson("/tasks/{$task->id}/complete", [])->assertOk();
+    }
+
+    /** @test */
+    public function a_user_mark_a_task_as_incomplete()
+    {
+        $task = factory(Task::class)->create();
+
+        $this->signIn()->postJson("/tasks/{$task->id}/incomplete", [])->assertOk();
+    }
 }

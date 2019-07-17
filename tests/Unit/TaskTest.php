@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Task;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\User;
+use Illuminate\Support\Carbon;
 
 class TaskTest extends TestCase
 {
@@ -17,5 +18,31 @@ class TaskTest extends TestCase
         $task = factory(Task::class)->create();
 
         $this->assertInstanceOf(User::class, $task->user);
+    }
+
+    /** @test */
+    public function it_can_mark_itself_as_complete()
+    {
+        $task = factory(Task::class)->create();
+
+        $this->assertNull($task->completed_at);
+
+        $task->markAsComplete();
+
+        $this->assertNotNull($task->fresh()->completed_at);
+    }
+
+    /** @test */
+    public function it_can_mark_itself_as_incomplete()
+    {
+        $task = factory(Task::class)->create([
+            'completed_at' => Carbon::now()
+        ]);
+
+        $this->assertNotNull($task->completed_at);
+
+        $task->markAsIncomplete();
+
+        $this->assertNull($task->fresh()->completed_at);
     }
 }

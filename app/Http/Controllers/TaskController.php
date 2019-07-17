@@ -10,17 +10,7 @@ use App\Http\Resources\TaskResource;
 class TaskController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
-     * Display a listing of the resource.
+     * Displays all tasks for the current user.
      *
      * @return \Illuminate\Http\Response
      */
@@ -32,7 +22,7 @@ class TaskController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a new task for the current user.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -47,29 +37,7 @@ class TaskController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Task  $task
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Task $task)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Task  $task
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Task $task)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * Update an existing task for the
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Task  $task
@@ -80,16 +48,5 @@ class TaskController extends Controller
         $updatedTask = tap($task)->update($request->validated());
 
         return new TaskResource($updatedTask);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Task  $task
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Task $task)
-    {
-        //
     }
 }

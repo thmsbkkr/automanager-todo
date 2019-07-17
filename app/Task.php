@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Task extends Model
 {
@@ -13,7 +14,7 @@ class Task extends Model
      * @var array
      */
     protected $fillable = [
-        'body',
+        'body', 'completed_at'
     ];
 
     /**
@@ -30,8 +31,32 @@ class Task extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user() 
+    public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Mark the task as incomplete.
+     *
+     * @return $this
+     */
+    public function markAsComplete()
+    {
+        return tap($this)->update([
+            'completed_at' => Carbon::now(),
+        ]);
+    }
+
+    /**
+     * Mark the task as incomplete.
+     *
+     * @return $this
+     */
+    public function markAsIncomplete()
+    {
+        return tap($this)->update([
+            'completed_at' => null
+        ]);
     }
 }
