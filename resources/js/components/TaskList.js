@@ -1,11 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import Task from './Task'
 
 export default class TodoList extends Component {
-  constructor (props) {
-    super (props)
-  }
-
   render() {
     const tasks = this.props.tasks
 
@@ -19,6 +15,6 @@ export default class TodoList extends Component {
           )}
         </ul>
       </div>
-    );
+    )
   }
 }

@@ -8,6 +8,8 @@ export default class TodoApp extends Component {
     super();
 
     this.state = { tasks: [] }
+
+    this.addTask = this.addTask.bind(this)
   }
 
   componentDidMount() {
@@ -16,10 +18,23 @@ export default class TodoApp extends Component {
       .then(tasks => this.setState({ tasks }))
   }
 
+  addTask (task) {
+    axios.post('/tasks', task)
+    .then(res => res.data.data)
+    .then(task => this.setState(state => {
+        const tasks = state.tasks.concat(task)
+
+        return {
+          tasks
+        };
+      })
+    )
+  }
+
   render() {
     return (
       <div>
-        <TaskInput />
+        <TaskInput onTaskAdded={this.addTask}/>
 
         <TaskList tasks={this.state.tasks} />
       </div>
@@ -28,5 +43,5 @@ export default class TodoApp extends Component {
 }
 
 if (document.getElementById('todo-app')) {
-  ReactDOM.render(<TodoApp />, document.getElementById('todo-app'));
+  ReactDOM.render(<TodoApp />, document.getElementById('todo-app'))
 }
