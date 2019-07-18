@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
 
 export default class TaskInput extends Component {
   constructor (props) {
@@ -10,7 +9,7 @@ export default class TaskInput extends Component {
 
   addTask(event) {
     if (event.key === 'Enter') {
-      this.props.onTaskAdded({
+      this.props.addTask({
         body: event.target.value
       })
 

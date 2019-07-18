@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Task from './Task'
 
-export default class TodoList extends Component {
+export default class TaskList extends Component {
   render() {
     const tasks = this.props.tasks
 

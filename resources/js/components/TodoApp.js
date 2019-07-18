@@ -34,7 +34,7 @@ export default class TodoApp extends Component {
   render() {
     return (
       <div>
-        <TaskInput onTaskAdded={this.addTask}/>
+        <TaskInput addTask={this.addTask}/>
 
         <TaskList tasks={this.state.tasks} />
       </div>
