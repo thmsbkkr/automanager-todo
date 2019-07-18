@@ -15,16 +15,13 @@ class TaskCompletionController extends Controller
      */
     public function store(Task $task)
     {
-        $task->markAsComplete();
+        if ($task->isActive()) {
+            $task->markAsComplete();
+        }
+
+        if ($task->isCompleted()) {
+            $task->markAsActive();
+        }
     }
 
-    /**
-     * Mark the given task as incomplete.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Task $task)
-    {
-        $task->markAsIncomplete();
-    }
 }

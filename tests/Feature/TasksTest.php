@@ -66,18 +66,10 @@ class TasksTest extends TestCase
     }
 
     /** @test */
-    public function a_user_mark_a_task_as_completed()
+    public function a_user_can_toggle_a_task()
     {
         $task = factory(Task::class)->create();
 
-        $this->signIn()->postJson("/tasks/{$task->id}/complete", [])->assertOk();
-    }
-
-    /** @test */
-    public function a_user_mark_a_task_as_incomplete()
-    {
-        $task = factory(Task::class)->create();
-
-        $this->signIn()->postJson("/tasks/{$task->id}/incomplete", [])->assertOk();
+        $this->signIn()->postJson("/tasks/{$task->id}/toggle", [])->assertOk();
     }
 }

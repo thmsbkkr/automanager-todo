@@ -33,7 +33,17 @@ class TaskTest extends TestCase
     }
 
     /** @test */
-    public function it_can_mark_itself_as_incomplete()
+    public function it_can_check_if_it_is_completed()
+    {
+        $task = factory(Task::class)->create([
+            'completed_at' => Carbon::now()
+        ]);
+
+        $this->assertTrue($task->isCompleted());
+    }
+
+    /** @test */
+    public function it_can_mark_itself_as_active()
     {
         $task = factory(Task::class)->create([
             'completed_at' => Carbon::now()
@@ -41,8 +51,18 @@ class TaskTest extends TestCase
 
         $this->assertNotNull($task->completed_at);
 
-        $task->markAsIncomplete();
+        $task->markAsActive();
 
         $this->assertNull($task->fresh()->completed_at);
+    }
+
+    /** @test */
+    public function it_can_check_if_it_is_active()
+    {
+        $task = factory(Task::class)->create([
+            'completed_at' => null
+        ]);
+
+        $this->assertTrue($task->isActive());
     }
 }

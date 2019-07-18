@@ -53,10 +53,30 @@ class Task extends Model
      *
      * @return $this
      */
-    public function markAsIncomplete()
+    public function markAsActive()
     {
         return tap($this)->update([
             'completed_at' => null
         ]);
+    }
+
+    /**
+     * Check if the task is active
+     *
+     * @return $this
+     */
+    public function isActive()
+    {
+        return is_null($this->completed_at);
+    }
+
+    /**
+     * Check if the task is completed
+     *
+     * @return $this
+     */
+    public function isCompleted()
+    {
+        return !$this->isActive();
     }
 }
