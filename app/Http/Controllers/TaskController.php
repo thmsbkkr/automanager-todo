@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Task;
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\TaskRequest;
 use App\Http\Resources\TaskResource;
 
 class TaskController extends Controller
@@ -24,10 +24,10 @@ class TaskController extends Controller
     /**
      * Store a new task for the current user.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\TaskRequest  $request
+     * @return \App\Http\Resources\TaskResource
      */
-    public function store(StoreTaskRequest $request)
+    public function store(TaskRequest $request)
     {
         $createdTask = $request->user()->tasks()->create(
             $request->validated()
@@ -37,16 +37,31 @@ class TaskController extends Controller
     }
 
     /**
-     * Update an existing task for the
+     * Update an existing task.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\TaskRequest  $request
      * @param  \App\Task  $task
-     * @return \Illuminate\Http\Response
+     * @return \App\Http\Resources\TaskResource
      */
-    public function update(StoreTaskRequest $request, Task $task)
+    public function update(TaskRequest $request, Task $task)
     {
         $updatedTask = tap($task)->update($request->validated());
 
         return new TaskResource($updatedTask);
+    }
+
+    /**
+     * Toggle the given task.
+     *
+     * @param \App\Task $task
+     * @return \App\Task $task
+     */
+    public function toggle(Task $task)
+    {
+        if ($task->isCompleted()) {
+            return $task->markAsActive();
+        }
+
+        return $task->markAsComplete();
     }
 }

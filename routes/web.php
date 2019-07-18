@@ -7,6 +7,5 @@ Route::middleware('auth')->group(function () {
 
     Route::apiResource('tasks', 'TaskController')->only(['index', 'store', 'update']);
 
-    Route::post('/tasks/{task}/complete', 'TaskCompletionController@store');
-    Route::post('/tasks/{task}/incomplete', 'TaskCompletionController@destroy');
+    Route::post('/tasks/{task}/toggle', 'TaskController@toggle');
 });
