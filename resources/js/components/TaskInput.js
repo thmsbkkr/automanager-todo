@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 
 export default class TaskInput extends Component {
-  constructor (props) {
-    super (props)
+  constructor(props) {
+    super(props)
 
     this.save = this.save.bind(this)
     this.update = this.update.bind(this)
   }
 
-  save (event) {
+
+  save(event) {
     if (event.key === 'Enter') {
       this.props.save({
         body: event.target.value
@@ -18,9 +19,11 @@ export default class TaskInput extends Component {
     }
   }
 
-  update (event) {
-    this.props.update(event.target.value)
+
+  update(event) {
+    this.props.update(event.target.value.trim())
   }
+
 
   render() {
     return (

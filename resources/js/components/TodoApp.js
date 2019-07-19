@@ -25,11 +25,13 @@ export default class TodoApp extends Component {
       .then(tasks => this.setState({ tasks }))
   }
 
-  updateNewTask (value) {
-    this.setState({ newTask: value.trim() })
+
+  updateNewTask(newTask) {
+    this.setState({ newTask })
   }
 
-  save (task) {
+
+  save(task) {
     Axios
       .post('/tasks', task)
       .then(res => res.data.data)
@@ -85,7 +87,6 @@ export default class TodoApp extends Component {
     const completedTasks = tasks
       .filter(task => task = task.completed)
       .map(task => mapTasks(task))
-
 
     return (
       <div>
