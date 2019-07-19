@@ -11,7 +11,7 @@ export default class TaskInput extends Component {
 
   save(event) {
     if (event.key === 'Enter') {
-      this.props.save({
+      this.props.onEnter({
         body: event.target.value
       })
 
@@ -21,7 +21,7 @@ export default class TaskInput extends Component {
 
 
   update(event) {
-    this.props.update(event.target.value.trim())
+    this.props.onUpdate(event.target.value.trim())
   }
 
 

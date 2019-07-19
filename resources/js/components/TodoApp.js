@@ -14,7 +14,9 @@ export default class TodoApp extends Component {
       newTask: ''
     }
 
-    this.save = this.save.bind(this)
+    this.add = this.add.bind(this)
+    this.edit = this.edit.bind(this)
+    this.cancel = this.cancel.bind(this)
     this.updateNewTask = this.updateNewTask.bind(this)
   }
 
@@ -31,7 +33,7 @@ export default class TodoApp extends Component {
   }
 
 
-  save(task) {
+  add(task) {
     Axios
       .post('/tasks', task)
       .then(res => res.data.data)
@@ -44,6 +46,11 @@ export default class TodoApp extends Component {
       }))
 
     this.setState({ newTask: '' })
+  }
+
+
+  save(task) {
+    console.log('save')
   }
 
 
@@ -62,6 +69,16 @@ export default class TodoApp extends Component {
   }
 
 
+  edit(task) {
+    this.setState({ editing: task.id });
+  }
+
+
+  cancel() {
+    this.setState({ editing: null });
+  }
+
+
   render() {
     const tasks = this.state.tasks
 
@@ -70,11 +87,10 @@ export default class TodoApp extends Component {
         <Task
           key={task.id}
           task={task}
-          onToggle={() => this.toggle(task)}
-          onDestroy={() => this.destroy(task)}
-          onEdit={() => this.edit(task)}
           editing={this.state.editing === task.id}
+          onEdit={() => this.edit(task)}
           onSave={() => this.save(task)}
+          onToggle={() => this.toggle(task)}
           onCancel={this.cancel}
         />
       )
@@ -92,8 +108,8 @@ export default class TodoApp extends Component {
       <div>
         <TaskInput
           value={this.state.newTask}
-          save={this.save}
-          update={this.updateNewTask} />
+          onEnter={this.add}
+          onUpdate={this.updateNewTask} />
 
         {activeTasks.length > 0 && (
           <div className="card mt-4">
