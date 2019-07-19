@@ -49,11 +49,6 @@ export default class TodoApp extends Component {
   }
 
 
-  save(task) {
-    console.log('save')
-  }
-
-
   toggle(taskToToggle) {
     Axios
       .post(`/tasks/${taskToToggle.id}/toggle`)
@@ -79,6 +74,22 @@ export default class TodoApp extends Component {
   }
 
 
+  save(taskToSave, newBody) {
+    Axios
+      .patch(`/tasks/${taskToSave.id}`, { body: newBody })
+      .then(() => this.setState(state => {
+        const tasks = state.tasks.map(function (task) {
+          return task !== taskToSave ? task : { ...task, body: newBody }
+        })
+
+        return {
+          tasks,
+          editing: null
+        };
+      }))
+  }
+
+
   render() {
     const tasks = this.state.tasks
 
@@ -89,7 +100,7 @@ export default class TodoApp extends Component {
           task={task}
           editing={this.state.editing === task.id}
           onEdit={() => this.edit(task)}
-          onSave={() => this.save(task)}
+          onSave={this.save.bind(this, task)}
           onToggle={() => this.toggle(task)}
           onCancel={this.cancel}
         />

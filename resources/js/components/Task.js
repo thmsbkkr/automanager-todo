@@ -12,9 +12,9 @@ export default class Task extends Component {
     this.ENTER_KEY = 13
 
     this.handleEdit = this.handleEdit.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleKeyDown = this.handleKeyDown.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
 
@@ -32,7 +32,7 @@ export default class Task extends Component {
   }
 
 
-  handleKeyDown () {
+  handleKeyDown (event) {
     if (event.which === this.ESCAPE_KEY) {
       this.setState({ editText: this.props.task.body });
 
@@ -47,11 +47,11 @@ export default class Task extends Component {
     let editText = this.state.editText.trim();
 
     if (editText) {
-      this.props.onSave(value);
+      this.props.onSave(editText);
 
       this.setState({ editText });
     } else {
-      this.props.onDestroy();
+      // this.props.onDestroy();
     }
   }
 
@@ -68,6 +68,7 @@ export default class Task extends Component {
           onBlur={this.handleSubmit}
           onChange={this.handleChange}
           onKeyDown={this.handleKeyDown}
+          autoFocus={true}
         />
       )
     } else {
