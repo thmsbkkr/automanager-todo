@@ -32,6 +32,7 @@ export default class TaskInput extends Component {
             value={this.props.value}
             onKeyPress={this.save}
             onChange={this.update}
+            autoFocus={true}
           />
         </div>
       </div>
