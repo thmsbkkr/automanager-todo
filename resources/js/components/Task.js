@@ -10,11 +10,6 @@ export default class Task extends Component {
 
     this.ESCAPE_KEY = 27
     this.ENTER_KEY = 13
-
-    this.handleEdit = this.handleEdit.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-    this.handleKeyDown = this.handleKeyDown.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
 
@@ -65,9 +60,9 @@ export default class Task extends Component {
           ref="editField"
           className="form-control"
           value={this.state.editText}
-          onBlur={this.handleSubmit}
-          onChange={this.handleChange}
-          onKeyDown={this.handleKeyDown}
+          onBlur={this.handleSubmit.bind(this)}
+          onChange={this.handleChange.bind(this)}
+          onKeyDown={this.handleKeyDown.bind(this)}
           autoFocus={true}
         />
       )
@@ -78,7 +73,7 @@ export default class Task extends Component {
     return (
       <li className="list-group-item">
         <div className="d-flex align-items-center justify-content-between">
-          <div className="flex-grow-1 mr-4" onDoubleClick={this.handleEdit}>
+          <div className="flex-grow-1 mr-4" onDoubleClick={this.handleEdit.bind(this)}>
             {body}
           </div>
 

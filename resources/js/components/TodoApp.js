@@ -13,11 +13,6 @@ export default class TodoApp extends Component {
       tasks: [],
       newTask: ''
     }
-
-    this.add = this.add.bind(this)
-    this.edit = this.edit.bind(this)
-    this.cancel = this.cancel.bind(this)
-    this.updateNewTask = this.updateNewTask.bind(this)
   }
 
 
@@ -25,11 +20,6 @@ export default class TodoApp extends Component {
     axios.get('/tasks')
       .then(res => res.data.data)
       .then(tasks => this.setState({ tasks }))
-  }
-
-
-  updateNewTask(newTask) {
-    this.setState({ newTask })
   }
 
 
@@ -41,11 +31,26 @@ export default class TodoApp extends Component {
         const tasks = state.tasks.concat(task)
 
         return {
-          tasks
+          tasks,
+          newTask: ''
         };
       }))
+  }
 
-    this.setState({ newTask: '' })
+
+  update(taskToUpdate, newBody) {
+    Axios
+      .patch(`/tasks/${taskToUpdate.id}`, { body: newBody })
+      .then(() => this.setState(state => {
+        const tasks = state.tasks.map(function (task) {
+          return task !== taskToUpdate ? task : { ...task, body: newBody }
+        })
+
+        return {
+          tasks,
+          editing: null
+        };
+      }))
   }
 
 
@@ -64,6 +69,11 @@ export default class TodoApp extends Component {
   }
 
 
+  updateNewTask(newTask) {
+    this.setState({ newTask })
+  }
+
+
   edit(task) {
     this.setState({ editing: task.id });
   }
@@ -71,22 +81,6 @@ export default class TodoApp extends Component {
 
   cancel() {
     this.setState({ editing: null });
-  }
-
-
-  save(taskToSave, newBody) {
-    Axios
-      .patch(`/tasks/${taskToSave.id}`, { body: newBody })
-      .then(() => this.setState(state => {
-        const tasks = state.tasks.map(function (task) {
-          return task !== taskToSave ? task : { ...task, body: newBody }
-        })
-
-        return {
-          tasks,
-          editing: null
-        };
-      }))
   }
 
 
@@ -99,10 +93,10 @@ export default class TodoApp extends Component {
           key={task.id}
           task={task}
           editing={this.state.editing === task.id}
-          onEdit={() => this.edit(task)}
-          onSave={this.save.bind(this, task)}
-          onToggle={() => this.toggle(task)}
-          onCancel={this.cancel}
+          onEdit={this.edit.bind(this, task)}
+          onSave={this.update.bind(this, task)}
+          onToggle={this.toggle.bind(this, task)}
+          onCancel={this.cancel.bind(this)}
         />
       )
     }
@@ -119,12 +113,12 @@ export default class TodoApp extends Component {
       <div>
         <TaskInput
           value={this.state.newTask}
-          onEnter={this.add}
-          onUpdate={this.updateNewTask} />
+          onEnter={this.add.bind(this)}
+          onUpdate={this.updateNewTask.bind(this)} />
 
         {activeTasks.length > 0 && (
           <div className="card mt-4">
-            <div className="card-header">Active tasks</div>
+            <div className="card-header">Active</div>
             <ul className="list-group list-group-flush">
               {activeTasks}
             </ul>
@@ -133,7 +127,7 @@ export default class TodoApp extends Component {
 
         {completedTasks.length > 0 && (
           <div className="card mt-4">
-            <div className="card-header">Completed tasks</div>
+            <div className="card-header">Completed</div>
             <ul className="list-group list-group-flush">
               {completedTasks}
             </ul>
