@@ -4,12 +4,13 @@ export default class TaskInput extends Component {
   constructor (props) {
     super (props)
 
-    this.addTask = this.addTask.bind(this)
+    this.save = this.save.bind(this)
+    this.update = this.update.bind(this)
   }
 
-  addTask(event) {
+  save (event) {
     if (event.key === 'Enter') {
-      this.props.addTask({
+      this.props.save({
         body: event.target.value
       })
 
@@ -17,11 +18,21 @@ export default class TaskInput extends Component {
     }
   }
 
+  update (event) {
+    this.props.update(event.target.value)
+  }
+
   render() {
     return (
       <div className="card">
         <div className="card-body">
-          <input className="form-control" onKeyPress={this.addTask} placeholder="Add task and press"></input>
+          <input
+            className="form-control"
+            placeholder="Add task and press"
+            value={this.props.value}
+            onKeyPress={this.save}
+            onChange={this.update}
+          />
         </div>
       </div>
     );

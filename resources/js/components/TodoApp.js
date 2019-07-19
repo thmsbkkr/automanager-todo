@@ -11,10 +11,11 @@ export default class TodoApp extends Component {
 
     this.state = {
       tasks: [],
-      editing: null
+      newTask: ''
     }
 
     this.save = this.save.bind(this)
+    this.updateNewTask = this.updateNewTask.bind(this)
   }
 
 
@@ -24,6 +25,9 @@ export default class TodoApp extends Component {
       .then(tasks => this.setState({ tasks }))
   }
 
+  updateNewTask (value) {
+    this.setState({ newTask: value.trim() })
+  }
 
   save (task) {
     Axios
@@ -35,8 +39,9 @@ export default class TodoApp extends Component {
         return {
           tasks
         };
-      })
-      )
+      }))
+
+    this.setState({ newTask: '' })
   }
 
 
@@ -51,8 +56,7 @@ export default class TodoApp extends Component {
         return {
           tasks
         };
-      })
-      )
+      }))
   }
 
 
@@ -85,7 +89,10 @@ export default class TodoApp extends Component {
 
     return (
       <div>
-        <TaskInput addTask={this.save} />
+        <TaskInput
+          value={this.state.newTask}
+          save={this.save}
+          update={this.updateNewTask} />
 
         {activeTasks.length > 0 && (
           <div className="card mt-4">
