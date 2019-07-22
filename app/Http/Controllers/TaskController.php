@@ -80,12 +80,12 @@ class TaskController extends Controller
     }
 
     /**
-     * Toggle the given task.
+     * Toggle all active tasks.
      *
      * @param \App\Task $task
      * @return \App\Task $task
      */
-    public function toggleAllActive()
+    public function markAllActive()
     {
         Task::markAllAsActive();
     }
@@ -96,7 +96,7 @@ class TaskController extends Controller
      * @param \App\Task $task
      * @return \App\Task $task
      */
-    public function toggleAllComplete()
+    public function markAllCompleted()
     {
         Task::markAllAsCompleted();
     }

@@ -64,6 +64,6 @@ class ToggleTasksTest extends TestCase
 
         $this->assertTrue($taskA->fresh()->isCompleted());
         $this->assertTrue($taskB->fresh()->isCompleted());
-        // $this->assertTrue($taskC->fresh()->isCompleted());
+        $this->assertTrue($taskC->fresh()->isCompleted());
     }
 }

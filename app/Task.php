@@ -81,9 +81,9 @@ class Task extends Model
     }
 
     /**
-     * Mark all completed tasks back to active.
+     * Mark all completed tasks as active.
      *
-     * @return void
+     * @return static
      */
     public static function markAllAsActive()
     {
@@ -91,7 +91,7 @@ class Task extends Model
     }
 
     /**
-     * Undocumented function
+     * Mark all active tasks as completed.
      *
      * @return void
      */
