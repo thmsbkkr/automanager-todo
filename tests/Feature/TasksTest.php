@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Task;
-use Illuminate\Support\Carbon;
 
 class TasksTest extends TestCase
 {
@@ -63,30 +62,6 @@ class TasksTest extends TestCase
         $this->signIn()
             ->patchJson("/tasks/{$task->id}", [])
             ->assertJsonValidationErrors('body');
-    }
-
-    /** @test */
-    public function a_user_can_toggle_an_active_task()
-    {
-        $task = factory(Task::class)->create();
-
-        $this->assertTrue($task->isActive());
-
-        $this->signIn()->postJson("/tasks/{$task->id}/toggle", []);
-
-        $this->assertTrue($task->fresh()->isCompleted());
-    }
-
-    /** @test */
-    public function a_user_can_toggle_an_completed_task()
-    {
-        $task = factory(Task::class)->create(['completed_at' => Carbon::now()]);
-
-        $this->assertTrue($task->isCompleted());
-
-        $this->signIn()->postJson("/tasks/{$task->id}/toggle", []);
-
-        $this->assertTrue($task->fresh()->isActive());
     }
 
     /** @test */

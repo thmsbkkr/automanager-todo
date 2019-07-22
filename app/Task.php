@@ -79,4 +79,24 @@ class Task extends Model
     {
         return !$this->isActive();
     }
+
+    /**
+     * Mark all completed tasks back to active.
+     *
+     * @return void
+     */
+    public static function markAllAsActive()
+    {
+       return static::whereNotNull('completed_at')->get()->each->markAsActive();
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public static function markAllAsCompleted()
+    {
+       return static::whereNull('completed_at')->get()->each->markAsComplete();
+    }
 }

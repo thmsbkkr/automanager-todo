@@ -78,4 +78,26 @@ class TaskController extends Controller
 
         return $task->markAsComplete();
     }
+
+    /**
+     * Toggle the given task.
+     *
+     * @param \App\Task $task
+     * @return \App\Task $task
+     */
+    public function toggleAllActive()
+    {
+        Task::markAllAsActive();
+    }
+
+    /**
+     * Toggle the given task.
+     *
+     * @param \App\Task $task
+     * @return \App\Task $task
+     */
+    public function toggleAllComplete()
+    {
+        Task::markAllAsCompleted();
+    }
 }
