@@ -87,7 +87,7 @@ class TaskController extends Controller
      */
     public function markAllActive()
     {
-        Task::markAllAsActive();
+        return Task::markAllAsActive();
     }
 
     /**
@@ -98,6 +98,6 @@ class TaskController extends Controller
      */
     public function markAllCompleted()
     {
-        Task::markAllAsCompleted();
+        return Task::markAllAsCompleted();
     }
 }

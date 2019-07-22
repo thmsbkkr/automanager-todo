@@ -84,6 +84,39 @@ export default class TodoApp extends Component {
   }
 
 
+  markAllActive(event) {
+    event.preventDefault();
+
+    Axios
+    .get(`/tasks/toggle/active`)
+    .then(() => this.setState(state => {
+      const tasks = state.tasks.map(function (task) {
+        return { ...task, completed: false }
+      })
+
+      return {
+        tasks
+      };
+    }))
+  }
+
+
+  markAllCompleted(event) {
+    event.preventDefault();
+    Axios
+    .get(`/tasks/toggle/active`)
+    .then(() => this.setState(state => {
+      const tasks = state.tasks.map(function (task) {
+        return { ...task, completed: true }
+      })
+
+      return {
+        tasks
+      };
+    }))
+  }
+
+
   updateNewTask(newTask) {
     this.setState({ newTask })
   }
@@ -134,7 +167,13 @@ export default class TodoApp extends Component {
 
         {activeTasks.length > 0 && (
           <div className="card mt-4">
-            <div className="card-header">Active</div>
+            <div className="card-header">
+              <div className="d-flex align-items-center justify-content-between">
+                <strong>Active</strong>
+
+                <a href="" onClick={this.markAllCompleted.bind(this)}>Mark All Completed</a>
+              </div>
+            </div>
             <ul className="list-group list-group-flush">
               {activeTasks}
             </ul>
@@ -143,7 +182,13 @@ export default class TodoApp extends Component {
 
         {completedTasks.length > 0 && (
           <div className="card mt-4">
-            <div className="card-header">Completed</div>
+            <div className="card-header">
+              <div className="d-flex align-items-center justify-content-between">
+                <strong>Completed</strong>
+
+                <a href="" onClick={this.markAllActive.bind(this)}>Mark All Active</a>
+              </div>
+            </div>
             <ul className="list-group list-group-flush">
               {completedTasks}
             </ul>
