@@ -46,7 +46,9 @@ export default class Task extends Component {
 
       this.setState({ editText });
     } else {
-      // this.props.onDestroy();
+      // We also remove the task when the user
+      // presses ENTER when the input is empty.
+      this.props.onDestroy();
     }
   }
 
