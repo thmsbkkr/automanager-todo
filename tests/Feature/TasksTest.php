@@ -65,10 +65,37 @@ class TasksTest extends TestCase
             ->assertJsonValidationErrors('body');
     }
 
-    public function a_user_can_toggle_a_task()
+    /** @test */
+    public function a_user_can_toggle_an_active_task()
     {
         $task = factory(Task::class)->create();
 
-        $response = $this->signIn()->postJson("/tasks/{$task->id}/toggle", []);
+        $this->assertTrue($task->isActive());
+
+        $this->signIn()->postJson("/tasks/{$task->id}/toggle", []);
+
+        $this->assertTrue($task->fresh()->isCompleted());
+    }
+
+    /** @test */
+    public function a_user_can_toggle_an_completed_task()
+    {
+        $task = factory(Task::class)->create(['completed_at' => Carbon::now()]);
+
+        $this->assertTrue($task->isCompleted());
+
+        $this->signIn()->postJson("/tasks/{$task->id}/toggle", []);
+
+        $this->assertTrue($task->fresh()->isActive());
+    }
+
+    /** @test */
+    public function a_user_can_remove_a_task()
+    {
+        $task = factory(Task::class)->create([]);
+
+        $this->signIn()->deleteJson("/tasks/{$task->id}")->assertStatus(204);
+
+        $this->assertDatabaseMissing('tasks', ['id' => $task->id]);
     }
 }

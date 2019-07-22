@@ -6,6 +6,7 @@ use App\Task;
 use Illuminate\Http\Request;
 use App\Http\Requests\TaskRequest;
 use App\Http\Resources\TaskResource;
+use Illuminate\Http\JsonResponse;
 
 class TaskController extends Controller
 {
@@ -48,6 +49,19 @@ class TaskController extends Controller
         $updatedTask = tap($task)->update($request->validated());
 
         return new TaskResource($updatedTask);
+    }
+
+    /**
+     * Remove an existing task.
+     *
+     * @param  \App\Task  $task
+     * @return \App\Http\Resources\TaskResource
+     */
+    public function destroy(Task $task)
+    {
+        $task->delete();
+
+        return new JsonResponse(null, 204);
     }
 
     /**
