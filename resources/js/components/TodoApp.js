@@ -54,6 +54,21 @@ export default class TodoApp extends Component {
   }
 
 
+  destroy(taskToRemove) {
+    Axios
+      .delete(`/tasks/${taskToRemove.id}`)
+      .then(() => this.setState(state => {
+        const tasks = state.tasks.filter(function (task) {
+          return task !== taskToRemove
+        })
+
+        return {
+          tasks
+        };
+      }))
+  }
+
+
   toggle(taskToToggle) {
     Axios
       .post(`/tasks/${taskToToggle.id}/toggle`)
@@ -97,6 +112,7 @@ export default class TodoApp extends Component {
           onSave={this.update.bind(this, task)}
           onToggle={this.toggle.bind(this, task)}
           onCancel={this.cancel.bind(this)}
+          onDestroy={this.destroy.bind(this, task)}
         />
       )
     }

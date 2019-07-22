@@ -77,11 +77,17 @@ export default class Task extends Component {
             {body}
           </div>
 
-          <div>
+          <div className="d-flex align-items-center">
             <input
+              className="d-inline mr-3"
               type="checkbox"
               checked={this.props.task.completed}
               onChange={this.props.onToggle} />
+
+            <button
+              className="d-inline btn btn-sm btn-danger"
+              onClick={this.props.onDestroy}
+            >Remove</button>
           </div>
         </div>
       </li>
