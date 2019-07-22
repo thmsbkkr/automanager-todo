@@ -37,7 +37,7 @@ class Task extends Model
     }
 
     /**
-     * Mark the task as incomplete.
+     * Mark the task as complete.
      *
      * @return $this
      */
@@ -49,7 +49,7 @@ class Task extends Model
     }
 
     /**
-     * Mark the task as incomplete.
+     * Mark the task as active.
      *
      * @return $this
      */
@@ -61,7 +61,7 @@ class Task extends Model
     }
 
     /**
-     * Check if the task is active
+     * Check if the task is active.
      *
      * @return $this
      */
@@ -71,7 +71,7 @@ class Task extends Model
     }
 
     /**
-     * Check if the task is completed
+     * Check if the task is completed.
      *
      * @return $this
      */
